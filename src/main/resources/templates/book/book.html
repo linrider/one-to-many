@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p th:text="${'id: ' + book.getId()}"></p>
+    <p th:text="${'title: ' + book.getTitle()}"></p>
+    <p th:text="${'author: ' + book.getAuthor()}"></p>
+    <p th:text="${'publication year: ' + book.getPubYear()}"></p>
+    <p th:text="${'inventory number: ' + book.getInvNumber()}"></p>
+    <form th:action="@{/book/edit/{id}(id=${book.getId()})}">
+      <input type="submit" value="Edit book" />
+    </form>
+    <form th:method="DELETE" th:action="@{/book/{id}(id=${book.getId()})}">
+      <input type="submit" value="Delete book" />
+    </form>
+    <form action="/book">
+      <input type="submit" value="Show all books" />
+    </form>
+</body>
+</html>

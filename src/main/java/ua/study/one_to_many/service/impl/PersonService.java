@@ -17,38 +17,44 @@ public class PersonService implements CrudService<Person, Integer> {
     private final JdbcTemplate jdbcTemplate;
 
     @SuppressWarnings("deprecation")
-    public Optional<Person> findByPassport(int passportNumber) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE passport_nr = ?", 
-        new Object[] {passportNumber}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    public Optional<Person> findByPassport(String passportNumber) {
+        return jdbcTemplate.query("SELECT * FROM person WHERE passport_nr = ?",
+                new Object[] { passportNumber }, new BeanPropertyRowMapper<>(Person.class))
+                .stream()
+                .findAny();
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public List<Person> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return jdbcTemplate.query("SELECT * FROM person", new BeanPropertyRowMapper(Person.class));
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public Person getById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        return jdbcTemplate
+                .query("SELECT FROM person WHERE id=?", new Object[] { id },
+                        new BeanPropertyRowMapper<>(Person.class))
+                .stream()
+                .findAny()
+                .orElseThrow();
     }
 
     @Override
-    public void save(Person t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public void save(Person person) {
+        jdbcTemplate.update("INSERT INTO person (first_name, last_name, birth_year, passport_nr) VALUES (?, ?, ?, ?)",
+                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassporNr());
     }
 
     @Override
-    public void update(Integer id, Person t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(Integer id, Person person) {
+        jdbcTemplate.update("UPDATE person SET first_name=?, last_name=?, birth_year=?, passport_nr=? WHERE id=?",
+                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassporNr());
     }
 
     @Override
     public void deleteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
     }
 }
