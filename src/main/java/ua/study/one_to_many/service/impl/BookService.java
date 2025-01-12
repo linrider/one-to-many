@@ -17,6 +17,21 @@ public class BookService implements CrudService<Book, Integer> {
     private final JdbcTemplate jdbcTemplate;
 
     @SuppressWarnings("deprecation")
+    public List<Book> getAllBooksByPersonId(int personId) {
+        return jdbcTemplate.query("SELECT * FROM book WHERE person_id=?",  
+        new Object[] {personId},
+        new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void assignPerson(int personId, int bookId) {
+        jdbcTemplate.update("UPDATE book SET person_id=? WHERE id=?", personId, bookId);
+    }
+    
+    public void releasePerson(int bookId) {
+        jdbcTemplate.update("UPDATE book SET person_id=null WHERE id=?", bookId);
+    }
+
+    @SuppressWarnings("deprecation")
     public Optional<Book> findByInvNumber(int invNumber) {
         return jdbcTemplate.query("SELECT * FROM book WHERE inv_nr=?", new Object[] {invNumber},
         new BeanPropertyRowMapper<>(Book.class))

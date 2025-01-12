@@ -24,6 +24,16 @@ public class PersonService implements CrudService<Person, Integer> {
                 .findAny();
     }
 
+    @SuppressWarnings("deprecation")
+    public Optional<Person> getPersonByBookId(int bookId) {
+        return jdbcTemplate
+                .query("SELECT person.* FROM person JOIN book ON book.person_id=person.id WHERE book.id=?",
+                        new Object[] { bookId },
+                        new BeanPropertyRowMapper<>(Person.class))
+                .stream()
+                .findAny();
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public List<Person> getAll() {
@@ -39,6 +49,7 @@ public class PersonService implements CrudService<Person, Integer> {
                 .stream()
                 .findAny()
                 .orElseThrow();
+                
     }
 
     @Override

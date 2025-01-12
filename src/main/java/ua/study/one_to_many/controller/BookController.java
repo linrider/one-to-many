@@ -1,5 +1,7 @@
 package ua.study.one_to_many.controller;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ua.study.one_to_many.model.Book;
+import ua.study.one_to_many.model.Person;
 import ua.study.one_to_many.service.impl.BookService;
+import ua.study.one_to_many.service.impl.PersonService;
 import ua.study.one_to_many.util.BookValidator;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class BookController {
     private final BookService bookService;
     private final BookValidator bookValidator;
+    private final PersonService personService;
 
     @GetMapping()
     public String getAll(Model model) {
@@ -31,9 +36,27 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String getBook(@PathVariable("id") int id, Model model) {
+    public String getBook(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person Person) {
         model.addAttribute("book", bookService.getById(id));
+        Optional<Person> owner = personService.getPersonByBookId(id);
+        if (owner.isPresent()) {
+            model.addAttribute("owner", owner.get());
+        } else {
+            model.addAttribute("people", personService.getAll());
+        }
         return "book/book";
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assignPerson(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+        bookService.assignPerson(person.getId(), id);
+        return "redirect:/book/" + id;
+    }
+
+    @PatchMapping("/{id}/release")
+    public String releasePerson(@PathVariable("id") int id) {
+        bookService.releasePerson(id);
+        return "redirect:/book/" + id;
     }
 
     @GetMapping("/new")

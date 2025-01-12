@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ua.study.one_to_many.model.Person;
+import ua.study.one_to_many.service.impl.BookService;
 import ua.study.one_to_many.service.impl.PersonService;
 import ua.study.one_to_many.util.PersonValidator;
 
@@ -23,6 +24,7 @@ import ua.study.one_to_many.util.PersonValidator;
 public class PersonController {
     private final PersonService personService;
     private final PersonValidator personValidator;
+    private final BookService bookService;
 
     @GetMapping()
     public String getAll(Model model) {
@@ -33,6 +35,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public String getUser(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personService.getById(id));
+        model.addAttribute("books", bookService.getAllBooksByPersonId(id));
         return "person/person";
     }
 
