@@ -18,27 +18,27 @@ public class BookService implements CrudService<Book, Integer> {
 
     @SuppressWarnings("deprecation")
     public List<Book> getAllBooksByPersonId(int personId) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE person_id=?",  
-        new Object[] {personId},
-        new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM book WHERE person_id=?",
+                new Object[] { personId },
+                new BeanPropertyRowMapper<>(Book.class));
     }
 
     public void assignPerson(int personId, int bookId) {
         jdbcTemplate.update("UPDATE book SET person_id=? WHERE id=?", personId, bookId);
     }
-    
+
     public void releasePerson(int bookId) {
         jdbcTemplate.update("UPDATE book SET person_id=null WHERE id=?", bookId);
     }
 
     @SuppressWarnings("deprecation")
     public Optional<Book> findByInvNumber(int invNumber) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE inv_nr=?", new Object[] {invNumber},
-        new BeanPropertyRowMapper<>(Book.class))
-        .stream()
-        .findAny();
+        return jdbcTemplate.query("SELECT * FROM book WHERE inv_nr=?", new Object[] { invNumber },
+                new BeanPropertyRowMapper<>(Book.class))
+                .stream()
+                .findAny();
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public List<Book> getAll() {
@@ -59,13 +59,13 @@ public class BookService implements CrudService<Book, Integer> {
     @Override
     public void save(Book book) {
         jdbcTemplate.update("INSERT INTO book (title, author, pub_year, inv_nr) VALUES(?, ?, ?, ?)",
-                book.getTitle(), book.getAuthor(), book.getPubYear(), book.getInvNumber());
+                book.getTitle(), book.getAuthor(), book.getPubYear(), book.getInvNr());
     }
 
     @Override
     public void update(Integer id, Book book) {
         jdbcTemplate.update("UPDATE book SET title=?, author=?, pub_year=?, inv_nr=? WHERE id=?",
-                book.getTitle(), book.getAuthor(), book.getPubYear(), book.getInvNumber(), id);
+                book.getTitle(), book.getAuthor(), book.getPubYear(), book.getInvNr(), id);
     }
 
     @Override

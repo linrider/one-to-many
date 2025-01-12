@@ -27,8 +27,8 @@ public class BookValidator implements Validator{
         if (book.getId() != 0) {
             Book previousVersion = bookService.getById(book.getId());
 
-            if (!previousVersion.getInvNumber().equals(book.getInvNumber())
-            && bookService.findByInvNumber(book.getInvNumber()).isPresent()) {
+            if (!previousVersion.getInvNr().equals(book.getInvNr())
+            && bookService.findByInvNumber(book.getInvNr()).isPresent()) {
                 errors.rejectValue("invNumber", "", "The book with such inventory number already exists");
             }
         }

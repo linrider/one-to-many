@@ -44,24 +44,23 @@ public class PersonService implements CrudService<Person, Integer> {
     @SuppressWarnings("deprecation")
     public Person getById(Integer id) {
         return jdbcTemplate
-                .query("SELECT FROM person WHERE id=?", new Object[] { id },
+                .query("SELECT * FROM person WHERE id=?", new Object[] { id },
                         new BeanPropertyRowMapper<>(Person.class))
                 .stream()
                 .findAny()
-                .orElseThrow();
-                
+                .orElseThrow();       
     }
 
     @Override
     public void save(Person person) {
         jdbcTemplate.update("INSERT INTO person (first_name, last_name, birth_year, passport_nr) VALUES (?, ?, ?, ?)",
-                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassporNr());
+                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassportNr());
     }
 
     @Override
     public void update(Integer id, Person person) {
         jdbcTemplate.update("UPDATE person SET first_name=?, last_name=?, birth_year=?, passport_nr=? WHERE id=?",
-                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassporNr());
+                person.getFirstName(), person.getLastName(), person.getBirthYear(), person.getPassportNr(), id);
     }
 
     @Override

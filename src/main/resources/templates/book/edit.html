@@ -20,9 +20,9 @@
         <input type="text" th:field="*{pubYear}" id="pubYear">
         <div style="color:red" th:if="${#fields.hasErrors('pubYear')}" th:errors="*{pubYear}">Publication year error</div>
         <br>
-        <label for="invNumber">Inventoty number:</label>
-        <input type="text" th:field="*{invNumber}" id="invNumber">
-        <div style="color:red" th:if="${#fields.hasErrors('invNumber')}" th:errors="*{invNumber}">Inventory number error</div>
+        <label for="invNr">Inventoty number:</label>
+        <input type="text" th:field="*{invNr}" id="invNr">
+        <div style="color:red" th:if="${#fields.hasErrors('invNr')}" th:errors="*{invNr}">Inventory number error</div>
         <br>
         <input type="submit" value="Save">
     </form> 

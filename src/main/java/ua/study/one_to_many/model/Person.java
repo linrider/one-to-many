@@ -29,7 +29,7 @@ public class Person {
 
     @NotBlank(message = "Passport number should be present")
     @Size(min = 8, max = 8, message = "Passport number length should be 8")
-    String passporNr;
+    String passportNr;
     
 
 }

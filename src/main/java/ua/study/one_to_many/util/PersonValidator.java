@@ -26,8 +26,8 @@ public class PersonValidator implements Validator {
 
         if (person.getId() != 0) {
             Person previosVersion = personService.getById(person.getId());
-            if (!previosVersion.getPassporNr().equals(person.getPassporNr())
-                    && personService.findByPassport(person.getPassporNr()).isPresent()) {
+            if (!previosVersion.getPassportNr().equals(person.getPassportNr())
+                    && personService.findByPassport(person.getPassportNr()).isPresent()) {
                 errors.rejectValue("passportNr", "", "This passport is allready registered");
             }
         }

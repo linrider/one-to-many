@@ -10,7 +10,7 @@
     <p th:text="${'title: ' + book.getTitle()}"></p>
     <p th:text="${'author: ' + book.getAuthor()}"></p>
     <p th:text="${'publication year: ' + book.getPubYear()}"></p>
-    <p th:text="${'inventory number: ' + book.getInvNumber()}"></p>
+    <p th:text="${'inventory number: ' + book.getInvNr()}"></p>
     <form th:action="@{/book/edit/{id}(id=${book.getId()})}">
       <input type="submit" value="Edit book" />
     </form>
