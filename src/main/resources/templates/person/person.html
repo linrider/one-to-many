@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <p th:text="${'id: ' + person.getId()}"></p>
     <p th:text="${'first name: ' + person.getFirstName()}"></p>
     <p th:text="${'last name: ' + person.getLastName()}"></p>
     <p th:text="${'birth year: ' + person.getBirthYear()}"></p>
     <p th:text="${'passport number: ' + person.getPassportNr}"></p>
+    <p>Assigned books:</p>
+    <div th:each="book : ${books}">
+      <a
+        th:href="@{/book/{id}(id=${book.getId()})}"
+        th:text="${book.getTitle() + ' - ' + book.getAuthor}"
+      ></a>
+    </div>
+    <br />
     <form th:action="@{/person/edit/{id}(id=${person.getId()})}">
-        <input type="submit" value="Edit person">
+      <input type="submit" value="Edit person" />
     </form>
     <form th:method="DELETE" th:action="@{/person/{id}(id=${person.getId()})}">
-        <input type="submit" value="Delete person">
+      <input type="submit" value="Delete person" />
     </form>
     <form action="/person">
-        <input type="submit" value="Show all people">
+      <input type="submit" value="Show all people" />
     </form>
-</body>
+  </body>
 </html>
